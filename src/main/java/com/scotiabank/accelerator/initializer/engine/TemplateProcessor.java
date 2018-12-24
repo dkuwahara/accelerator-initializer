@@ -8,15 +8,13 @@ import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import com.scotiabank.accelerator.initializer.core.model.ProjectCreation;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.net.URISyntaxException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
 import java.util.stream.Stream;
 
 import static java.nio.file.Files.walk;
@@ -77,7 +75,10 @@ public class TemplateProcessor {
 
             if (currentPath.toFile().toString().endsWith(".jar")) {
                 try {
-                    FileUtils.copyFile(currentPath.toFile(), destinationFile);
+                    if (! destinationFile.getParentFile().exists()){
+                        destinationFile.getParentFile().mkdirs();
+                    }
+                    Files.copy(currentPath, destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
                 } catch (IOException e) {
                     log.error("Could not copy file {}", currentPath, e);
                 }

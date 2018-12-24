@@ -2,7 +2,7 @@ plugins {
     id 'java'
     id 'idea'
     id 'jacoco'
-    id 'org.springframework.boot' version '2.0.5.RELEASE'
+    id 'org.springframework.boot' version '2.1.1.RELEASE'
     id 'io.spring.dependency-management' version '1.0.6.RELEASE'
     id 'maven-publish'
 }
@@ -21,6 +21,8 @@ ext {
     springfoxSwaggerVersion = '2.9.2'
     commonsIOVersion = '2.6'
     commonsTextVersion = '1.4'
+    jacksonVersion = '2.9.8'
+    guavaVersion = '26.0-jre'
 }
 
 sourceSets {
@@ -40,13 +42,15 @@ dependencies {
     compileOnly "org.projectlombok:lombok:$lombokVersion"
     compile "org.springframework.boot:spring-boot-starter"
     compile "org.springframework.boot:spring-boot-starter-web"
-    compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
-    compile "commons-io:commons-io:$commonsIOVersion"
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion"
+    compile "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
     compile "org.apache.commons:commons-text:$commonsTextVersion"
     compile "org.springframework.boot:spring-boot-starter-mustache"
     compile "org.springframework.boot:spring-boot-starter-actuator"
     compile "io.springfox:springfox-swagger2:$springfoxSwaggerVersion"
     compile "io.springfox:springfox-swagger-ui:$springfoxSwaggerVersion"
+    compile "com.google.guava:guava:$guavaVersion"
+
     testCompile "org.springframework.boot:spring-boot-starter-test"
     testCompile "com.jayway.jsonpath:json-path"
     testCompile "com.jayway.jsonpath:json-path-assert"
