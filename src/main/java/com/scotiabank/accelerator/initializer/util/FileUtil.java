@@ -17,7 +17,6 @@ public class FileUtil {
 
             stream.sorted(Comparator.reverseOrder())
                 .map(Path::toFile)
-                .peek(System.out::println)
                 .forEach(File::delete);
         } catch (IOException e) {
             log.error("Cleaning folder {} failed", dir);
