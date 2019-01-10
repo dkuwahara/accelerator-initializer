@@ -7,7 +7,7 @@ package com.scotiabank.accelerator.initializer.core.listener;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import org.apache.commons.io.FileUtils;
+import com.scotiabank.accelerator.initializer.util.FileUtil;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
@@ -22,9 +22,6 @@ public class InitializerCleanUpListener {
     @EventListener(InitializerCleanUpEvent.class)
     public void handleOrderCreatedEvent(InitializerCleanUpEvent event) {
         Path parent = Paths.get(event.getRootdir()).getParent();
-        log.info("Cleaning folder {}", parent);
-        FileUtils.deleteQuietly(parent.toFile());
-        
-        
+        FileUtil.deleteDirectoryQuietly(parent);
     }
 }

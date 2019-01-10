@@ -2,7 +2,7 @@ package com.scotiabank.accelerator.initializer.engine;
 
 import com.scotiabank.accelerator.initializer.core.model.ProjectCreation;
 import com.scotiabank.accelerator.initializer.model.ApplicationType;
-import org.apache.commons.io.FileUtils;
+import com.scotiabank.accelerator.initializer.util.FileUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -53,7 +54,7 @@ public class TemplateProcessorTest {
         assertThat(Paths.get(temporaryPath.toString(), "src/main/java/com/test/testapp/TestAppApplication.java").toFile().exists()).isTrue();
         assertThat(Paths.get(temporaryPath.toString(), "gradle/wrapper/gradle-wrapper.jar").toFile().exists()).isTrue();
 
-        FileUtils.deleteDirectory(temporaryPath.toFile());
+        FileUtil.deleteDirectoryQuietly(temporaryPath);
     }
 
     @Test
@@ -75,7 +76,7 @@ public class TemplateProcessorTest {
         templateProcessor.process(projectCreation, currentPath, relativePath.toString());
         assertThat(Paths.get(temporaryPath.toString(), "src/main/java/com/test/testapp").toFile().exists()).isTrue();
 
-        FileUtils.deleteDirectory(temporaryPath.toFile());
+        FileUtil.deleteDirectoryQuietly(temporaryPath);
     }
 
     @Test
@@ -101,7 +102,7 @@ public class TemplateProcessorTest {
         assertThat(destination.toFile().exists()).isTrue();
         assertThat(destination.toFile().length()).isEqualTo(currentPath.toFile().length());
 
-        FileUtils.deleteDirectory(temporaryPath.toFile());
+        FileUtil.deleteDirectoryQuietly(temporaryPath);
     }
 
     @Test
@@ -127,10 +128,10 @@ public class TemplateProcessorTest {
 
         assertThat(destination.toFile().exists()).isTrue();
 
-        String fileContent = FileUtils.readFileToString(destination.toFile(), "UTF-8");
+        String fileContent = new String(Files.readAllBytes(destination));
         assertThat(fileContent).doesNotContain("{{javaApplicationName}}");
 
-        FileUtils.deleteDirectory(temporaryPath.toFile());
+        FileUtil.deleteDirectoryQuietly(temporaryPath);
     }
 
     @Test
